@@ -41,6 +41,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Pickaxe.cs" />
+    <Compile Include="Potion.cs" />
     <Compile Include="Shield.cs" />
     <Compile Include="Sword.cs" />
     <Compile Include="Random.cs" />
