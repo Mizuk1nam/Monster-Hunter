@@ -41,6 +41,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Character.cs" />
     <Compile Include="Pickaxe.cs" />
     <Compile Include="Potion.cs" />
     <Compile Include="Shield.cs" />
