@@ -124,7 +124,7 @@ namespace Monster_Hunter
             public int FreezeTimeMilliseconds { get; set; }
 
             // Map reference
-            private readonly Map map;
+            public readonly Map map;
 
             // Constructor
             protected Character(int x, int y, Map map)

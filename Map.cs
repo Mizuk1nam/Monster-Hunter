@@ -7,14 +7,10 @@ namespace Monster_Hunter
     public class Map
     {
         private char[][] mapArray = new char[][] { };
-        private int playerX = 0;
-        private int playerY = 0;
 
-        // Width and Height variables
         private int _width;
         private int _height;
 
-        // Public properties for Width and Height
         public int Width
         {
             get { return _width; }
@@ -47,64 +43,62 @@ namespace Monster_Hunter
             }
         }
 
-        // Array to hold .map file names
         public string[] MapFiles { get; private set; }
+        public char[][] MapArray => mapArray;
 
-        // Constructor
         public Map()
         {
-            // Find all .map files in the folder
             MapFiles = Directory.GetFiles(Directory.GetCurrentDirectory(), "*.map");
         }
 
-        // Load a map file into MapData
-        private void LoadMapFromFile(string filename)
+        public void LoadMapFromFile(string filename)
         {
             if (!File.Exists(filename))
             {
                 throw new FileNotFoundException("The specified map file does not exist.");
             }
 
-            mapArray = new char[][] { }; // Clear any existing map data
+            mapArray = new char[][] { };
 
             foreach (string fileLine in File.ReadLines(filename))
             {
+                if (mapArray.Length > 0 && fileLine.Length != mapArray[0].Length)
+                {
+                    throw new Exception("Inconsistent row lengths in the map file.");
+                }
+
                 char[] fileLineArray = fileLine.ToCharArray();
                 Array.Resize(ref mapArray, mapArray.Length + 1);
                 mapArray[mapArray.Length - 1] = fileLineArray;
             }
 
-            // Set Width and Height
             Height = mapArray.Length;
             Width = mapArray.Length > 0 ? mapArray[0].Length : 0;
 
             if (Height > 30 || Width > 75)
             {
-                Console.WriteLine("Warning: The map size is too big.");
+                Console.WriteLine("Warning: The map size exceeds recommended dimensions.");
             }
         }
 
-        // Draw the map to the console
         public void DrawMap()
         {
-            for (int y = 0; y < mapArray.Length; y++)
-            {
-                for (int x = 0; x < mapArray[y].Length; x++)
-                {
-                    char currentChar = mapArray[y][x];
-                    Console.Write(currentChar);
+            Console.Clear();
+            Console.SetCursorPosition(0, 0);
+            Console.BackgroundColor = ConsoleColor.Blue;
 
-                    if (currentChar == 'P') // Player
-                    {
-                        playerY = y;
-                        playerX = x;
-                    }
+            for (int Y = 0; Y < mapArray.GetLength(0); Y++)
+            {
+                for (int X = 0; X < mapArray[Y].Length; X++)
+                {
+                    Console.Write(mapArray[Y][X]);
                 }
                 Console.WriteLine();
             }
         }
     }
-    
-    
-       
+
+
+
+
 }
