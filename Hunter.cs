@@ -40,9 +40,9 @@ namespace Monster_Hunter
                 }
             }
 
-            private IState state;
+            private State state;
 
-            public IState State
+            public State State
             {
                 get => state;
                 set
@@ -99,12 +99,12 @@ namespace Monster_Hunter
             }
         }
 
-        public interface IState
+        public interface State
         {
             void ApplyState(Hunter hunter);
         }
 
-        public class NormalState : IState
+        public class NormalState : State
         {
             public void ApplyState(Hunter hunter)
             {
@@ -114,7 +114,7 @@ namespace Monster_Hunter
             }
         }
 
-        public class StrongState : IState
+        public class StrongState : State
         {
             public void ApplyState(Hunter hunter)
             {
@@ -124,7 +124,7 @@ namespace Monster_Hunter
             }
         }
 
-        public class PoisonedState : IState
+        public class PoisonedState : State
         {
             public void ApplyState(Hunter hunter)
             {
@@ -135,7 +135,7 @@ namespace Monster_Hunter
             }
         }
 
-        public class InvisibleState : IState
+        public class InvisibleState : State
         {
             public void ApplyState(Hunter hunter)
             {
@@ -143,7 +143,7 @@ namespace Monster_Hunter
             }
         }
 
-        public class FastState : IState
+        public class FastState : State
         {
             public void ApplyState(Hunter hunter)
             {
