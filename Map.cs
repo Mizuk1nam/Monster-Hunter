@@ -58,6 +58,7 @@ namespace Monster_Hunter
             {
                 throw new FileNotFoundException("No .map files found in the current directory.");
             }
+           
         }
 
         // Method to load the map from a file and set the dimensions
@@ -124,6 +125,9 @@ namespace Monster_Hunter
                 mapArray[mapArray.GetUpperBound(0)] = fileLineArray;
             }
         }
+       
+
+       
     }
 
 

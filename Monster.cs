@@ -72,7 +72,77 @@ namespace Monster_Hunter
                     Console.WriteLine("Monster couldn't move in that direction. Trying again...");
                 }
             }
+            public void AttackHunter(Hunter hunter)
+            {
+                // Check if the monster is adjacent to the hunter
+                int distanceX = hunter.X - this.X;
+                int distanceY = hunter.Y - this.Y;
 
+                if (distanceX <= 1 && distanceY <= 1) // Monster is adjacent to the hunter
+                {
+                    // Calculate damage
+                    int damage = this.Strength - hunter.Armor;
+
+                    // Check if the hunter has a shield
+                    if (hunter.Shield != null)
+                    {
+                        // Add shield armor to the hunter's armor
+                        damage -= hunter.Shield.Armor;
+                        // Check if the shield breaks after the attack
+                        if (hunter.Shield.BreakShield())
+                        {
+                            hunter.Shield = null; // Shield breaks and is removed
+                            Console.WriteLine("The shield has broken!");
+                        }
+                    }
+
+                    // Inflict damage if it's positive
+                    if (damage > 0)
+                    {
+                        hunter.CurrentHP -= damage;
+                        Console.WriteLine($"Hunter takes {damage} damage. Remaining HP: {hunter.CurrentHP}");
+
+                        if (hunter.CurrentHP <= 5)
+                        {
+                            Console.ForegroundColor = ConsoleColor.Red;
+                            Console.WriteLine($"HP: {hunter.CurrentHP}");
+                            Console.ResetColor();
+                        }
+
+                        if (hunter.IsDead())
+                        {
+                            Console.WriteLine("The Hunter has died.");
+                            AskForNewGame(); // Handle asking for a new game after death
+                        }
+                    }
+                    else
+                    {
+                        Console.WriteLine("The attack was blocked by armor.");
+                    }
+                }
+            }
+
+
+
+
+            public void AskForNewGame()
+            {
+                Console.WriteLine("Do you want to play again? (y/n)");
+                string response = Console.ReadLine().ToLower();
+                if (response == "y")
+                {
+                    // Logic to reset the game state (e.g., Level 1, Score: 0)
+                    StartNewGame();
+                }
+                else
+                {
+                    Environment.Exit(0); // Exit the game
+                }
+            }
+           public void StartNewGame()
+            {
+                // 
+            }
         }
     }
 

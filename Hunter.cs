@@ -15,7 +15,7 @@ namespace Monster_Hunter
         public class Hunter : Character
         {
             private string name;
-
+            public Shield Shield { get; set; }
             public string Name
             {
                 get => name;

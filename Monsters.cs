@@ -9,7 +9,7 @@ namespace Monster_Hunter
 {
     public class Monsters
     {
-        private List<Monster> monsters;
+        private static List<Monster> monsters;
 
         public Monsters()
         {
@@ -37,6 +37,9 @@ namespace Monster_Hunter
                 return new List<Monster>();
             }
         }
-
+        public List<Monster> GetMonsters()
+        {
+            return monsters;
+        }
     }
 }
