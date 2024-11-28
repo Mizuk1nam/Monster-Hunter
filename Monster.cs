@@ -52,26 +52,40 @@ namespace Monster_Hunter
                 return map.MapArray[y][x] != '#' && map.MapArray[y][x] != 'H';
             }
 
-            public void MoveRandomly()
+            public void MoveRandomly(Map map)
             {
-                // Generate random directions to move
-                Random random = new Random();
-                int newX = X;
-                int newY = Y;
+                
+                SingletonRandom random = SingletonRandom.GetInstance();
+                int newX = this.X;
+                int newY = this.Y;
+                int attempts = 0;
 
-                switch (random.Next(4))
+                // Try up to 5 times to move in a valid direction
+                while (attempts < 5)
                 {
-                    case 0: newX--; break; // Move left
-                    case 1: newX++; break; // Move right
-                    case 2: newY--; break; // Move up
-                    case 3: newY++; break; // Move down
+                    // Pick a random direction (0 = left, 1 = right, 2 = up, 3 = down)
+                    switch (random.GetRandomNumber(0, 4))  // Use SingletonRandom's GetRandomNumber
+                    {
+                        case 0: newX--; break; // Move left
+                        case 1: newX++; break; // Move right
+                        case 2: newY--; break; // Move up
+                        case 3: newY++; break; // Move down
+                    }
+
+                    // Try to move to the new position
+                    if (Move(newX, newY))  // Use Move() method to check the validity of the new position
+                    {
+                        return; // If successful, exit
+                    }
+
+                    // If the move failed, retry with new random direction
+                  
                 }
 
-                if (!Move(newX, newY))
-                {
-                    Console.WriteLine("Monster couldn't move in that direction. Trying again...");
-                }
+                // If all attempts fail, print a message
+                Console.WriteLine("Monster couldn't move after multiple attempts.");
             }
+
             public void AttackHunter(Hunter hunter)
             {
                 // Check if the monster is adjacent to the hunter
@@ -143,6 +157,15 @@ namespace Monster_Hunter
             {
                 // 
             }
+            public bool IsAdjacentTo(Hunter hunter)
+            {
+                int deltaX = this.X - hunter.X;
+                int deltaY = this.Y - hunter.Y;
+
+                // Check if both deltas are either -1, 0, or 1 (indicating adjacency)
+                return (deltaX >= -1 && deltaX <= 1) && (deltaY >= -1 && deltaY <= 1) && (deltaX != 0 || deltaY != 0);
+            }
+
         }
     }
 

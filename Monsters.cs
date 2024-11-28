@@ -41,5 +41,9 @@ namespace Monster_Hunter
         {
             return monsters;
         }
+        public void Remove(Monster monster)
+        {
+            monsters.Remove(monster);  
+        }
     }
 }

@@ -1,154 +1,163 @@
 ﻿using Monster_Hunter.Monster_Hunter;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Timers;
 
 namespace Monster_Hunter
 {
-    using System;
-
-    namespace Monster_Hunter
+    public class Hunter : Character
     {
-        public class Hunter : Character
+        private string name;
+        private DateTime lastMoveTime; // To track freeze time
+        private string moveKeys = "WASD"; // Movement keys
+
+        public Shield Shield { get; set; }
+        public string Name
         {
-            private string name;
-            public Shield Shield { get; set; }
-            public string Name
+            get => name;
+            set
             {
-                get => name;
-                set
-                {
-                    if (value.Length > 20)
-                        throw new ArgumentException("Name cannot exceed 20 characters.");
-                    name = value;
-                }
+                if (value.Length > 20)
+                    throw new ArgumentException("Name cannot exceed 20 characters.");
+                name = value;
             }
+        }
 
-            private int score;
+        private int score;
 
-            public int Score
+        public int Score
+        {
+            get => score;
+            set
             {
-                get => score;
-                set
-                {
-                    if (value < 0 || value > 100000)
-                        throw new ArgumentException("Score must be between 0 and 100,000.");
-                    score = value;
-                }
+                if (value < 0 || value > 100000)
+                    throw new ArgumentException("Score must be between 0 and 100,000.");
+                score = value;
             }
+        }
 
-            private State state;
+        private State state;
 
-            public State State
+        public State State
+        {
+            get => state;
+            set
             {
-                get => state;
-                set
-                {
-                    state = value;
-                    state.ApplyState(this);
-                    StartStateTimer();
-                }
+                // Apply new state and reset timer for state change
+                state = value;
+                state.ApplyState(this);
+                StartStateTimer();
             }
+        }
 
-            private Timer stateTimer;
+        private Timer stateTimer;
 
-            public Hunter(int startX, int startY, Map gameMap)
-                : base(startX, startY, gameMap)
-            {
-                if (gameMap == null)
-                    throw new ArgumentNullException(nameof(gameMap));
+        public Hunter(int startX, int startY, Map gameMap)
+            : base(startX, startY, gameMap)
+        {
+            if (gameMap == null)
+                throw new ArgumentNullException(nameof(gameMap));
 
-                FreezeTimeMilliseconds = 1000; // Default freeze time
-                State = new NormalState();
-                CurrentHP = MaxHP;
-            }
+            FreezeTimeMilliseconds = 1000; // Default freeze time
+            State = new NormalState(); // Default state
+            CurrentHP = MaxHP;
+            lastMoveTime = DateTime.Now;
+        }
 
-            public override bool Move(int newX, int newY)
-            {
-                if (newX < 0 || newX >= map.Width || newY < 0 || newY >= map.Height)
-                    return false;
-
-                if (IsValidPosition(newX, newY))
-                {
-                    X = newX;
-                    Y = newY;
-                    return true;
-                }
+        public override bool Move(int newX, int newY)
+        {
+            if (newX < 0 || newX >= map.Width || newY < 0 || newY >= map.Height)
                 return false;
-            }
 
-            private bool IsValidPosition(int x, int y)
+            if (IsValidPosition(newX, newY))
             {
-                // Check map boundaries and obstacles
-                return map.MapArray[y][x] != '#' && map.MapArray[y][x] != 'M'; // '#' for walls, 'M' for monsters
+                X = newX;
+                Y = newY;
+                return true;
             }
-
-            private void StartStateTimer()
-            {
-                stateTimer?.Stop();
-                stateTimer = new Timer(10000); // 10 seconds
-                stateTimer.Elapsed += (sender, e) =>
-                {
-                    State = new NormalState();
-                    stateTimer.Stop();
-                };
-                stateTimer.Start();
-            }
+            return false;
         }
 
-        public interface State
+        private bool IsValidPosition(int x, int y)
         {
-            void ApplyState(Hunter hunter);
+            // Check map boundaries and obstacles
+            return map.MapArray[y][x] != '#' && map.MapArray[y][x] != 'M'; // '#' for walls, 'M' for monsters
         }
 
-        public class NormalState : State
+        private void StartStateTimer()
         {
-            public void ApplyState(Hunter hunter)
+            stateTimer?.Stop(); // Stop any existing timer
+            stateTimer = new Timer(10000); // 10 seconds duration for the current state
+            stateTimer.Elapsed += (sender, e) =>
             {
-                hunter.Strength = 5;
-                hunter.Armor = 3;
-                hunter.FreezeTimeMilliseconds = 1000; // Default freeze time
-            }
+                State = new NormalState(); // Revert back to NormalState after 10 seconds
+                stateTimer.Stop();
+            };
+            stateTimer.Start(); // Start the timer
         }
 
-        public class StrongState : State
+        // To stop the timer manually (e.g., if the state is changed by an event or item)
+        public void StopStateTimer()
         {
-            public void ApplyState(Hunter hunter)
-            {
-                hunter.Strength *= 2; // Double strength
-                hunter.Armor = (int)(hunter.Armor * 1.5); // 1.5x defense
-                hunter.CurrentHP = hunter.MaxHP; // Full HP
-            }
+            stateTimer?.Stop();
+            State = new NormalState(); // Return to NormalState if the timer is stopped manually
         }
+    }
 
-        public class PoisonedState : State
+    // State Interface
+    public interface State
+    {
+        void ApplyState(Hunter hunter);
+    }
+
+    // NormalState: Default state
+    public class NormalState : State
+    {
+        public void ApplyState(Hunter hunter)
         {
-            public void ApplyState(Hunter hunter)
-            {
-                hunter.CurrentHP -= 5; // Lose 5 HP
-                hunter.Strength /= 2; // Halve strength
-                hunter.Armor /= 2; // Halve defense
-                hunter.FreezeTimeMilliseconds = (int)(hunter.FreezeTimeMilliseconds * 1.25); // 25% longer freeze time
-            }
+            hunter.Strength = 5;
+            hunter.Armor = 3;
+            hunter.FreezeTimeMilliseconds = 1000; // Default freeze time
         }
+    }
 
-        public class InvisibleState : State
+    // StrongState: Double strength and boost armor
+    public class StrongState : State
+    {
+        public void ApplyState(Hunter hunter)
         {
-            public void ApplyState(Hunter hunter)
-            {
-                // No changes to attributes but avoids combat
-            }
+            hunter.Strength *= 2; // Double strength
+            hunter.Armor = (int)(hunter.Armor * 1.5); // 1.5x defense
+            hunter.CurrentHP = hunter.MaxHP; // Full HP
         }
+    }
 
-        public class FastState : State
+    // PoisonedState: Halves strength and armor, and adds a poison effect
+    public class PoisonedState : State
+    {
+        public void ApplyState(Hunter hunter)
         {
-            public void ApplyState(Hunter hunter)
-            {
-                hunter.FreezeTimeMilliseconds /= 2; // Halve freeze time
-            }
+            hunter.CurrentHP -= 5; // Lose 5 HP
+            hunter.Strength /= 2; // Halve strength
+            hunter.Armor /= 2; // Halve defense
+            hunter.FreezeTimeMilliseconds = (int)(hunter.FreezeTimeMilliseconds * 1.25); // 25% longer freeze time
+        }
+    }
+
+    // InvisibleState: No changes to attributes, but avoids combat
+    public class InvisibleState : State
+    {
+        public void ApplyState(Hunter hunter)
+        {
+            // No changes to attributes
+        }
+    }
+
+    // FastState: Halve freeze time, increases speed
+    public class FastState : State
+    {
+        public void ApplyState(Hunter hunter)
+        {
+            hunter.FreezeTimeMilliseconds /= 2; // Halve freeze time
         }
     }
 }
