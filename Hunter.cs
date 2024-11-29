@@ -1,6 +1,7 @@
 ﻿using Monster_Hunter.Monster_Hunter;
 using System;
 using System.Timers;
+using System.Xml.Linq;
 
 namespace Monster_Hunter
 {
@@ -76,6 +77,22 @@ namespace Monster_Hunter
             }
             return false;
         }
+        public void AttackMonster(Monster monster)
+        {
+            int damage = this.Strength - monster.Armor;
+
+            if (damage > 0)
+            {
+                monster.CurrentHP -= damage;
+                Console.WriteLine($"Hunter attacks! Monster takes {damage} damage. Monster's HP: {monster.CurrentHP}");
+
+                // Check if the monster is dead
+                if (monster.IsDead())
+                {
+                    Console.WriteLine("The monster has been defeated!");
+                }
+            }
+        }
 
         private bool IsValidPosition(int x, int y)
         {
@@ -100,6 +117,14 @@ namespace Monster_Hunter
         {
             stateTimer?.Stop();
             State = new NormalState(); // Return to NormalState if the timer is stopped manually
+        }
+        public bool IsAdjacentToMonster(Monster monster)
+        {
+            int deltaX = this.X - monster.X;
+            int deltaY = this.Y - monster.Y;
+
+            // Check if both deltas are either -1, 0, or 1 (indicating adjacency)
+            return (deltaX >= -1 && deltaX <= 1) && (deltaY >= -1 && deltaY <= 1) && (deltaX != 0 || deltaY != 0);
         }
     }
 
@@ -160,4 +185,6 @@ namespace Monster_Hunter
             hunter.FreezeTimeMilliseconds /= 2; // Halve freeze time
         }
     }
+   
+
 }

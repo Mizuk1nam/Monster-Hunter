@@ -1,49 +1,74 @@
 ﻿using Monster_Hunter.Monster_Hunter;
-using System;
+using Monster_Hunter;
 using System.Collections.Generic;
+using System;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace Monster_Hunter
+public class Monsters
 {
-    public class Monsters
+    private static List<Monster> monsters;
+
+    public Monsters()
     {
-        private static List<Monster> monsters;
+        monsters = new List<Monster>();
+    }
 
-        public Monsters()
-        {
-            monsters = new List<Monster>();
-        }
+    // Add a monster to the list
+    public void AddMonster(Monster monster)
+    {
+        monsters.Add(monster);
+    }
 
-        // Add a monster to the list
-        public void AddMonster(Monster monster)
+    // Find monsters by position (X, Y)
+    public List<Monster> FindMonstersAtPosition(int x, int y)
+    {
+        try
         {
-            monsters.Add(monster);
+            // Filter the list to find all monsters at the given position
+            var foundMonsters = monsters.Where(monster => monster.X == x && monster.Y == y).ToList();
+            return foundMonsters;
         }
-
-        // Find monsters by position (X, Y)
-        public List<Monster> FindMonstersAtPosition(int x, int y)
+        catch (Exception ex)
         {
-            try
-            {
-                // Filter the list to find all monsters at the given position
-                var foundMonsters = monsters.Where(monster => monster.X == x && monster.Y == y).ToList();
-                return foundMonsters;
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"An error occurred while finding monsters: {ex.Message}");
-                return new List<Monster>();
-            }
-        }
-        public List<Monster> GetMonsters()
-        {
-            return monsters;
-        }
-        public void Remove(Monster monster)
-        {
-            monsters.Remove(monster);  
+            Console.WriteLine($"An error occurred while finding monsters: {ex.Message}");
+            return new List<Monster>();
         }
     }
+
+    public List<Monster> GetMonsters()
+    {
+        return monsters;
+    }
+
+    public void Remove(Monster monster)
+    {
+        monsters.Remove(monster);
+    }
+
+    // The hunter is passed as a parameter to attack monsters
+    public void AttackMonstersAtPosition(int x, int y, Hunter hunter)
+    {
+        var monstersAtPosition = FindMonstersAtPosition(x, y);
+
+        foreach (var monster in monstersAtPosition)
+        {
+            // The hunter attacks first in this scenario
+            hunter.AttackMonster(monster);
+
+            // Check if the monster is dead
+            if (monster.IsDead())
+            {
+                Remove(monster); // Remove the monster if it's dead
+                hunter.Score += 100; // Award score for defeating the monster
+                Console.WriteLine($"Monster defeated! +100 points.");
+            }
+            else
+            {
+                // The monster will retaliate if it's still alive
+                monster.AttackHunter(hunter);
+            }
+        }
+
+    }
+   
 }

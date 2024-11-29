@@ -157,7 +157,7 @@ namespace Monster_Hunter
             {
                 // 
             }
-            public bool IsAdjacentTo(Hunter hunter)
+            public bool IsAdjacentToHunter(Hunter hunter)
             {
                 int deltaX = this.X - hunter.X;
                 int deltaY = this.Y - hunter.Y;

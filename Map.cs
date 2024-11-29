@@ -53,7 +53,7 @@ namespace Monster_Hunter
         // Constructor to initialize map files from the current directory
         public Map()
         {
-            MapFiles = Directory.GetFiles(Directory.GetCurrentDirectory(), "*.txt");
+            MapFiles = Directory.GetFiles(Directory.GetCurrentDirectory(), "*.map");
             if (MapFiles.Length == 0)
             {
                 throw new FileNotFoundException("No .map files found in the current directory.");

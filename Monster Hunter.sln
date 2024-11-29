@@ -5,9 +5,9 @@ VisualStudioVersion = 17.7.34024.191
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Monster Hunter", "Monster Hunter.csproj", "{F59C6B69-CF52-4C50-BC33-A6BEA5498A49}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MonsterHunterConsole", "..\MonsterHunterConsole\MonsterHunterConsole.csproj", "{10CD2C2E-5479-4132-A086-9B4E4C0CCD91}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MonsterHunterForms", "..\MonsterHunterForms\MonsterHunterForms.csproj", "{6A373D12-2F41-481F-A100-A46FD145E8E8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MonsterHunterConsole.Net", "..\MonsterHunterConsole.Net\MonsterHunterConsole.Net.csproj", "{F1795CE8-644C-4F32-9688-2B16BC81A7E7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -19,14 +19,14 @@ Global
 		{F59C6B69-CF52-4C50-BC33-A6BEA5498A49}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F59C6B69-CF52-4C50-BC33-A6BEA5498A49}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F59C6B69-CF52-4C50-BC33-A6BEA5498A49}.Release|Any CPU.Build.0 = Release|Any CPU
-		{10CD2C2E-5479-4132-A086-9B4E4C0CCD91}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{10CD2C2E-5479-4132-A086-9B4E4C0CCD91}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{10CD2C2E-5479-4132-A086-9B4E4C0CCD91}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{10CD2C2E-5479-4132-A086-9B4E4C0CCD91}.Release|Any CPU.Build.0 = Release|Any CPU
 		{6A373D12-2F41-481F-A100-A46FD145E8E8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{6A373D12-2F41-481F-A100-A46FD145E8E8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6A373D12-2F41-481F-A100-A46FD145E8E8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6A373D12-2F41-481F-A100-A46FD145E8E8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F1795CE8-644C-4F32-9688-2B16BC81A7E7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F1795CE8-644C-4F32-9688-2B16BC81A7E7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F1795CE8-644C-4F32-9688-2B16BC81A7E7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F1795CE8-644C-4F32-9688-2B16BC81A7E7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
