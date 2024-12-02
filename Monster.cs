@@ -30,7 +30,7 @@ namespace Monster_Hunter
                 // Check the new position is within map boundaries
                 if (newX < 0 || newX >= map.Width || newY < 0 || newY >= map.Height)
                 {
-                    Console.WriteLine("Move failed: Out of map bounds.");
+                  
                     return false;
                 }
 
@@ -49,7 +49,7 @@ namespace Monster_Hunter
                     return true;
                 }
 
-                Console.WriteLine("Move failed");
+               
                 return false;
             }
 
@@ -80,7 +80,7 @@ namespace Monster_Hunter
                     }
 
                     // Try to move to the new position
-                    if (Move(newX, newY))  // Use Move() method to check the validity of the new position
+                    if (Move(newX, newY))  
                     {
                         return; // If successful, exit
                     }
@@ -92,7 +92,7 @@ namespace Monster_Hunter
                 
             }
 
-            public void AttackHunter(Hunter hunter)
+            public void AttackHunter(Hunter hunter, Map map)
             {
                 // Check if the monster is adjacent to the hunter
                 int distanceX = hunter.X - this.X;
@@ -120,6 +120,7 @@ namespace Monster_Hunter
                     if (damage > 0)
                     {
                         hunter.CurrentHP -= damage;
+                        Console.SetCursorPosition(0, map.Height + 1);
                         Console.WriteLine($"Hunter takes {damage} damage. Remaining HP: {hunter.CurrentHP}");
 
                         if (hunter.CurrentHP <= 5)
@@ -132,7 +133,7 @@ namespace Monster_Hunter
                         if (hunter.IsDead())
                         {
                             Console.WriteLine("The Hunter has died.");
-                            AskForNewGame(); 
+                           
                         }
                     }
                     else
@@ -145,24 +146,7 @@ namespace Monster_Hunter
 
 
 
-            public void AskForNewGame()
-            {
-                Console.WriteLine("Do you want to play again? (y/n)");
-                string response = Console.ReadLine().ToLower();
-                if (response == "y")
-                {
-                    
-                    StartNewGame();
-                }
-                else
-                {
-                    Environment.Exit(0); // Exit the game
-                }
-            }
-           public void StartNewGame()
-            {
-                // 
-            }
+    
             public bool IsAdjacentToHunter(Hunter hunter)
             {
                 int deltaX = this.X - hunter.X;

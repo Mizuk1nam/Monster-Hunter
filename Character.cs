@@ -73,14 +73,12 @@ namespace Monster_Hunter
                 get => currentHP;
                 set
                 {
-                    if (value >= 0 && value <= MaxHP)
-                    {
-                        currentHP = value;
-                    }
+                    if (value < 0)
+                        currentHP = 0;
+                    else if (value > MaxHP)
+                        currentHP = MaxHP;
                     else
-                    {
-                        throw new ArgumentException("Current HP must be between 0 and Max HP.");
-                    }
+                        currentHP = value;
                 }
             }
 

@@ -96,7 +96,7 @@ namespace Monster_Hunter
             // Clear the console and set background color
             Console.Clear();
             Console.SetCursorPosition(0, 0);
-            Console.BackgroundColor = ConsoleColor.Blue;
+           
 
             // Loop through the map array and draw each element
             for (int y = 0; y < mapArray.Length; y++)

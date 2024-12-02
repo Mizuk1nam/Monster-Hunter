@@ -46,14 +46,14 @@ public class Monsters
     }
 
     // The hunter is passed as a parameter to attack monsters
-    public void AttackMonstersAtPosition(int x, int y, Hunter hunter)
+    public void AttackMonstersAtPosition(int x, int y, Hunter hunter, Map map)
     {
         var monstersAtPosition = FindMonstersAtPosition(x, y);
 
         foreach (var monster in monstersAtPosition)
         {
             // The hunter attacks first in this scenario
-            hunter.AttackMonster(monster);
+            hunter.AttackMonster(monster, map);
 
             // Check if the monster is dead
             if (monster.IsDead())
@@ -65,7 +65,7 @@ public class Monsters
             else
             {
                 // The monster will retaliate if it's still alive
-                monster.AttackHunter(hunter);
+                monster.AttackHunter(hunter, map);
             }
         }
 

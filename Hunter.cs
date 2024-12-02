@@ -11,7 +11,8 @@ namespace Monster_Hunter
         private string name;
         private DateTime lastMoveTime; // To track freeze time
         private string moveKeys = "WASD"; // Movement keys
-
+        private int level;
+        public int Level { get; set; }
         public Shield Shield { get; set; }
         public string Name
         {
@@ -78,13 +79,14 @@ namespace Monster_Hunter
             }
             return false;
         }
-        public void AttackMonster(Monster monster)
+        public void AttackMonster(Monster monster, Map map)
         {
             int damage = this.Strength - monster.Armor;
 
             if (damage > 0)
             {
                 monster.CurrentHP -= damage;
+                Console.SetCursorPosition(0, map.Height + 1);
                 Console.WriteLine($"Hunter attacks! Monster takes {damage} damage. Monster's HP: {monster.CurrentHP}");
 
                 // Check if the monster is dead
@@ -113,7 +115,7 @@ namespace Monster_Hunter
             stateTimer.Start(); // Start the timer
         }
 
-        // To stop the timer manually (e.g., if the state is changed by an event or item)
+        // To stop the timer manually 
         public void StopStateTimer()
         {
             stateTimer?.Stop();
@@ -157,7 +159,7 @@ namespace Monster_Hunter
         }
     }
 
-    // PoisonedState: Halves strength and armor, and adds a poison effect
+    // PoisonedState: Halves strength and armor, adds a poison effect
     public class PoisonedState : State
     {
         public void ApplyState(Hunter hunter)

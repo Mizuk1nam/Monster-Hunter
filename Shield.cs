@@ -8,7 +8,7 @@ namespace Monster_Hunter
 {
     public class Shield
     {
-        //  A property for the armor (or defense) of the shield.
+        // A property for the armor (or defense) of the shield.
         public int Armor;
 
         // Create random value of 3-6 when the object is created
