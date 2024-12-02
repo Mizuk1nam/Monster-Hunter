@@ -49,7 +49,7 @@ namespace Monster_Hunter
             }
 
             // Maximum HP and current HP
-            private int maxHP;
+            private int maxHP =30;
             private int currentHP;
 
             public int MaxHP

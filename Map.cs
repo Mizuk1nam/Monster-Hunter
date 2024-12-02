@@ -103,7 +103,24 @@ namespace Monster_Hunter
             {
                 for (int x = 0; x < mapArray[y].Length; x++)
                 {
-                    Console.Write(mapArray[y][x]);
+                    char element = mapArray[y][x];
+
+                    // Set colors based on the element
+                    if (element == 'H')  // Hunter
+                    {
+                        Console.ForegroundColor = ConsoleColor.Green;
+                    }
+                    else if (element == 'M')  // Monster
+                    {
+                        Console.ForegroundColor = ConsoleColor.Red;
+                    }
+                    else  // Other elements
+                    {
+                        Console.ForegroundColor = ConsoleColor.White;
+                    }
+
+                    // Write the map element
+                    Console.Write(element);
                 }
                 Console.WriteLine();
             }
@@ -111,6 +128,7 @@ namespace Monster_Hunter
             // Reset console colors
             Console.ResetColor();
         }
+
 
         // Private method to load map data from a file into the map array
         private void loadMapFromFile(string filename)
@@ -125,9 +143,15 @@ namespace Monster_Hunter
                 mapArray[mapArray.GetUpperBound(0)] = fileLineArray;
             }
         }
-       
+        public bool IsValidPosition(int x, int y)
+        {
+            return x >= 0 && x < MapArray[0].Length &&
+                   y >= 0 && y < MapArray.Length &&
+                   MapArray[y][x] != '#';
+        }
 
-       
+
+
     }
 
 

@@ -1,5 +1,6 @@
 ﻿using Monster_Hunter.Monster_Hunter;
 using System;
+using System.Collections.Generic;
 using System.Timers;
 using System.Xml.Linq;
 
@@ -185,6 +186,6 @@ namespace Monster_Hunter
             hunter.FreezeTimeMilliseconds /= 2; // Halve freeze time
         }
     }
-   
+    
 
 }

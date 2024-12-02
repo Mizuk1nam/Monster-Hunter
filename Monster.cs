@@ -7,11 +7,18 @@ using System.Threading.Tasks;
 namespace Monster_Hunter
 {
     using System;
+    using System.Windows.Forms;
 
     namespace Monster_Hunter
     {
         public class Monster : Character
         {
+           
+            public enum Direction { Up, Down, Left, Right }
+            public Direction monsterDirection { get; set; }
+            public int pixelsToMove { get; set; }
+            public PictureBox picMonster { get; set; }
+            
             public Monster(int startX, int startY, Map gameMap)
                 : base(startX, startY, gameMap)
             {
@@ -56,15 +63,15 @@ namespace Monster_Hunter
             {
                 
                 SingletonRandom random = SingletonRandom.GetInstance();
-                int newX = this.X;
-                int newY = this.Y;
+                int newX = X;
+                int newY =Y;
                 int attempts = 0;
 
                 // Try up to 5 times to move in a valid direction
                 while (attempts < 5)
                 {
-                    // Pick a random direction (0 = left, 1 = right, 2 = up, 3 = down)
-                    switch (random.GetRandomNumber(0, 4))  // Use SingletonRandom's GetRandomNumber
+                  
+                    switch (random.GetRandomNumber(0, 4))  
                     {
                         case 0: newX--; break; // Move left
                         case 1: newX++; break; // Move right
@@ -82,8 +89,7 @@ namespace Monster_Hunter
                   
                 }
 
-                // If all attempts fail, print a message
-                Console.WriteLine("Monster couldn't move after multiple attempts.");
+                
             }
 
             public void AttackHunter(Hunter hunter)
@@ -126,7 +132,7 @@ namespace Monster_Hunter
                         if (hunter.IsDead())
                         {
                             Console.WriteLine("The Hunter has died.");
-                            AskForNewGame(); // Handle asking for a new game after death
+                            AskForNewGame(); 
                         }
                     }
                     else
@@ -145,7 +151,7 @@ namespace Monster_Hunter
                 string response = Console.ReadLine().ToLower();
                 if (response == "y")
                 {
-                    // Logic to reset the game state (e.g., Level 1, Score: 0)
+                    
                     StartNewGame();
                 }
                 else
@@ -165,6 +171,8 @@ namespace Monster_Hunter
                 // Check if both deltas are either -1, 0, or 1 (indicating adjacency)
                 return (deltaX >= -1 && deltaX <= 1) && (deltaY >= -1 && deltaY <= 1) && (deltaX != 0 || deltaY != 0);
             }
+
+
 
         }
     }
