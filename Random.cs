@@ -30,10 +30,5 @@ namespace Monster_Hunter
             return random.Next(min, max);
         }
 
-        public double GetRandomDouble()
-        {
-            return random.NextDouble();
-        }
-
     }
 }

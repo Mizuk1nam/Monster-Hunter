@@ -123,12 +123,13 @@ namespace Monster_Hunter
         }
         public bool IsAdjacentToMonster(Monster monster)
         {
-            int deltaX = this.X - monster.X;
-            int deltaY = this.Y - monster.Y;
+            int distanceX = monster.X - this.X;
+            int distanceY = monster.Y - this.Y;
 
-            // Check if both deltas are either -1, 0, or 1 (indicating adjacency)
-            return (deltaX >= -1 && deltaX <= 1) && (deltaY >= -1 && deltaY <= 1) && (deltaX != 0 || deltaY != 0);
+            // Check if the monster is adjacent
+            return (distanceX >= -1 && distanceX <= 1) && (distanceY >= -1 && distanceY <= 1) && (distanceX != 0 || distanceY != 0);
         }
+
     }
 
     // State Interface
